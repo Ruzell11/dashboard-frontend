@@ -34,7 +34,7 @@ const DashboardLayout: React.FC<Children> = ({ children }: Children) => {
         </div>
 
         {/* Page Content */}
-        <main className="flex-1 p-4 overflow-y-auto">{children}</main>
+        <main className="p-4 ">{children}</main>
       </div>
     </div>
   );

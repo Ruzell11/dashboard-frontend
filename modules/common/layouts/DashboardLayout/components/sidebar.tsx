@@ -20,6 +20,10 @@ const Sidebar: React.FC<NavbarProps> = ({ setActiveMenu, activeMenu }) => {
       items: ["Sales Chart", "Sales List"],
     },
     {
+      id: "Products",
+      items: ["Product List"],
+    },
+    {
       id: "Dashboard",
       items: ["Leads Chart", "Leads List"],
     },
@@ -52,6 +56,7 @@ const Sidebar: React.FC<NavbarProps> = ({ setActiveMenu, activeMenu }) => {
             </p>
             {item.items.map((link) => (
               <Link
+                key={link}
                 href={`/dashboard/${link
                   .toLocaleLowerCase()
                   .replace(" ", "-")}`}

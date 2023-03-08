@@ -10,7 +10,6 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import faker from "faker";
-import ContentLayout from "../common/layouts/ContentLayout";
 
 ChartJS.register(
   CategoryScale,
@@ -22,6 +21,7 @@ ChartJS.register(
 );
 
 export const options = {
+  maintainAspectRatio: false,
   responsive: true,
   plugins: {
     legend: {
@@ -53,6 +53,10 @@ export const data = {
 };
 
 const BarGraph = () => {
-  return <Bar options={options} data={data} />;
+  return (
+    <div className="container h-[600px] ">
+      <Bar options={options} data={data} />
+    </div>
+  );
 };
 export default BarGraph;

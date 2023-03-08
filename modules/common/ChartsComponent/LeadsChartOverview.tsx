@@ -56,6 +56,10 @@ export const data = {
 };
 
 const LeadsChartOverview = () => {
-  return <Line options={options} data={data} />;
+  return (
+    <div className="container h-[600px] ">
+      <Line options={options} data={data} />
+    </div>
+  );
 };
 export default LeadsChartOverview;

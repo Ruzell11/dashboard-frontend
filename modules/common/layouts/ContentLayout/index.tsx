@@ -10,7 +10,7 @@ const ContentLayout = ({ children }: Children) => {
   const segments = url.split("/");
   return (
     <DashboardLayout>
-      <div className="flex flex-col w-100 justify-center  h-[100%] bg-gray-100/70 p-10 rounded-md ">
+      <div className="flex flex-col w-100 justify-center  p-10 min-h-[500px] bg-gray-100/70 rounded-md ">
         <Breadcrumbs aria-label="breadcrumb">
           <Link href="/">Dashboard</Link>
 
