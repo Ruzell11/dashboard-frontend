@@ -3,6 +3,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 
 import { AiOutlineClose } from "react-icons/ai";
 import React from "react";
+import { useRouter } from "next/router";
 
 interface NavbarProps {
   setActiveMenu: (menuOpen: boolean) => void;
@@ -10,6 +11,10 @@ interface NavbarProps {
 }
 
 const Sidebar: React.FC<NavbarProps> = ({ setActiveMenu, activeMenu }) => {
+  const router = useRouter();
+
+  const url = router.pathname.split("/").pop();
+
   const links = [
     {
       id: "Overall Overview",
@@ -49,25 +54,34 @@ const Sidebar: React.FC<NavbarProps> = ({ setActiveMenu, activeMenu }) => {
         <div></div>
       </div>
       <div className="flex flex-col justify-start items-start pt-10  font-light mx-4 opacity-70">
-        {links.map((item) => (
-          <div key={item.id}>
-            <p className="text-gray-400  text-lg m-3 mt-4 uppercase">
-              {item.id}
-            </p>
-            {item.items.map((link) => (
-              <Link
-                key={link}
-                href={`/dashboard/${link
+        {links.map((item) => {
+          return (
+            <div key={item.id}>
+              <p className="text-gray-400  text-lg m-3 mt-4 uppercase">
+                {item.id}
+              </p>
+              {item.items.map((link) => {
+                const currentActive = link
                   .toLocaleLowerCase()
-                  .replace(" ", "-")}`}
-              >
-                <p className="capitalize flex font-semibold justify-between items-center gap-10 text-white mx-3 hover:text-green-400 duration-200 ease-in">
-                  {link}
-                </p>
-              </Link>
-            ))}
-          </div>
-        ))}
+                  .replace(" ", "-");
+                const isActive = url === currentActive;
+                return (
+                  <Link key={link} href={`/dashboard/${currentActive}`}>
+                    <p
+                      className={
+                        isActive
+                          ? "capitalize flex font-semibold justify-between items-center gap-10  mx-3 text-green-400 duration-200 ease-in "
+                          : "capitalize flex font-semibold justify-between items-center gap-10 text-white mx-3 hover:text-green-400 duration-200 ease-in"
+                      }
+                    >
+                      {link}
+                    </p>
+                  </Link>
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
