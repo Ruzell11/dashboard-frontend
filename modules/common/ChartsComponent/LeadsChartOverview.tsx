@@ -58,7 +58,7 @@ export const data = {
 
 const LeadsChartOverview = () => {
   return (
-    <div className=" md:h-[400px]">
+    <div className=" container h-[100%] md:h-[400px]">
       <Line options={options} data={data} />
     </div>
   );

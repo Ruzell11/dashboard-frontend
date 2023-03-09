@@ -2,7 +2,6 @@ import React from "react";
 
 import ContentLayout from "../common/layouts/ContentLayout";
 import SalesChartOverview from "../common/ChartsComponent/SalesChartOverview";
-import LeadsChartOverview from "../common/ChartsComponent/LeadsChartOverview";
 
 const Charts = () => {
   return (
@@ -12,7 +11,7 @@ const Charts = () => {
           <SalesChartOverview />
         </div>
         <div className="col-span-12 md:col-span-6">
-          <LeadsChartOverview />
+          <SalesChartOverview />
         </div>
       </div>
     </ContentLayout>

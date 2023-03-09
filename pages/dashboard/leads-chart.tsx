@@ -1,10 +1,10 @@
-import LeadsChartOverview from "@/modules/common/ChartsComponent/LeadsChartOverview";
+import SalesChartOverview from "@/modules/common/ChartsComponent/SalesChartOverview";
 import ContentLayout from "@/modules/common/layouts/ContentLayout";
 
 const LeadsChart = () => {
   return (
     <ContentLayout>
-      <LeadsChartOverview />;
+      <SalesChartOverview />
     </ContentLayout>
   );
 };

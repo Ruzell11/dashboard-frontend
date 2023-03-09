@@ -58,7 +58,9 @@ const DashboardLayout: React.FC<Children> = ({ children }: Children) => {
         </div>
 
         {/* Page Content */}
-        <main className="flex-grow p-6">{children}</main>
+        <main className="flex-grow p-6" onClick={() => setActiveMenu(false)}>
+          {children}
+        </main>
       </div>
     </div>
   );
