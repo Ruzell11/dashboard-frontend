@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import faker from "faker";
+import ContentLayout from "../layouts/ContentLayout";
 
 ChartJS.register(
   CategoryScale,
@@ -57,7 +58,7 @@ export const data = {
 
 const LeadsChartOverview = () => {
   return (
-    <div className="container h-[600px] ">
+    <div className=" md:h-[400px]">
       <Line options={options} data={data} />
     </div>
   );

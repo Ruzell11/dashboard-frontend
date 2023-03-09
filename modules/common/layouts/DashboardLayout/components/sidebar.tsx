@@ -41,7 +41,7 @@ const Sidebar: React.FC<NavbarProps> = ({ setActiveMenu, activeMenu }) => {
           </p>
         </div>
         <p
-          className="text-xl mt-2 cursor-pointer text-white block md:hidden"
+          className="text-xl mt-2 cursor-pointer text-white block "
           onClick={() => setActiveMenu(!activeMenu)}
         >
           {activeMenu ? <AiOutlineClose /> : <GiHamburgerMenu />}
