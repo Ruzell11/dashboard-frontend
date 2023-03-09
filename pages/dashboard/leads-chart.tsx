@@ -4,7 +4,7 @@ import ContentLayout from "@/modules/common/layouts/ContentLayout";
 const LeadsChart = () => {
   return (
     <ContentLayout>
-      <LeadsChartOverview />
+      <LeadsChartOverview />;
     </ContentLayout>
   );
 };

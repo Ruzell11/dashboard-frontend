@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import faker from "faker";
+import ContentLayout from "../layouts/ContentLayout";
 
 ChartJS.register(
   CategoryScale,
@@ -54,8 +55,8 @@ export const data = {
 
 const BarGraph = () => {
   return (
-    <div className="container h-[600px] ">
-      <Bar options={options} data={data} />
+    <div className="container h-[100%] md:h-[400px]">
+      <Bar options={options} data={data} height={500} />
     </div>
   );
 };

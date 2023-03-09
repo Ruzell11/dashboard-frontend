@@ -39,11 +39,12 @@ const rows = [
 export default function LeadsList() {
   return (
     <ContentLayout>
-      <div style={{ height: 600, width: "100%" }}>
+      <div>
         <h1 className="m-4">
           This list contains information about our customers from our dummy
           ecommerce, including their name, phone number, and age.
         </h1>
+
         <DataGrid
           rows={rows}
           columns={columns}

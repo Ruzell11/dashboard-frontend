@@ -8,17 +8,21 @@ const DashboardLayout: React.FC<Children> = ({ children }: Children) => {
 
   const sidebarStyle = {
     transition: "width 0.5s",
+    position: "fixed", // add this line to make sidebar fixed
+    top: 0, // add this line to position the sidebar at the top
+    bottom: 0, // add this line to stretch the sidebar to the bottom
+  };
+
+  const mainContentStyle = {
+    marginLeft: activeMenu ? "72px" : "0", // adjust margin left based on active menu
+    transition: "margin 0.5s",
   };
 
   return (
-    <div className="flex h-screen w-screen">
+    <div className="flex flex-col md:flex-row md:h-screen md:w-screen">
       {/* Sidebar */}
       <aside
-        className={
-          activeMenu
-            ? "bg-blue-900 fixed h-[100%] w-[100%] md:w-72 md:relative z-[100]"
-            : "w-0"
-        }
+        className={activeMenu ? "bg-blue-900 w-72 md:relative z-50" : "w-0"}
         style={sidebarStyle}
       >
         {activeMenu ? (
@@ -27,14 +31,14 @@ const DashboardLayout: React.FC<Children> = ({ children }: Children) => {
       </aside>
 
       {/* Main Content */}
-      <div className="w-full flex flex-col">
+      <div className="w-full flex flex-col" style={mainContentStyle}>
         {/* Navbar */}
         <div className="bg-blue-900 text-white p-6">
           <Navbar setActiveMenu={setActiveMenu} activeMenu={activeMenu} />
         </div>
 
         {/* Page Content */}
-        <main className="p-4 ">{children}</main>
+        <main className="flex-grow p-6">{children}</main>
       </div>
     </div>
   );
