@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { userGetLoginRequest } from "./components/services";
-import { useRouter } from "next/router";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
 
-  const { mutate, isError } = userGetLoginRequest();
+  const { mutate } = userGetLoginRequest();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -18,12 +16,6 @@ const Login = () => {
     };
 
     mutate(params);
-
-    if (!isError) {
-      router.push("/dashboard/charts");
-    }
-
-    // Handle login logic
   };
 
   return (

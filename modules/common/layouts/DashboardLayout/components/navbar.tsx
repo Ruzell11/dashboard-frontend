@@ -7,6 +7,7 @@ import { BsPersonFill } from "react-icons/bs";
 interface NavbarProps {
   setActiveMenu: (menuOpen: boolean) => void;
   activeMenu: boolean;
+  isLogin: string | undefined;
 }
 
 interface ArrayProps {
@@ -25,7 +26,11 @@ const DropdownMenuArray: Array<ArrayProps> = [
   },
 ];
 
-const Navbar: React.FC<NavbarProps> = ({ setActiveMenu, activeMenu }) => {
+const Navbar: React.FC<NavbarProps> = ({
+  setActiveMenu,
+  activeMenu,
+  isLogin,
+}) => {
   return (
     <ul className="flex justify-between items-center ">
       <li
@@ -41,6 +46,7 @@ const Navbar: React.FC<NavbarProps> = ({ setActiveMenu, activeMenu }) => {
         icon={(props: React.SVGProps<SVGSVGElement>) => (
           <BsPersonFill {...props} />
         )}
+        isLogin={isLogin}
       />
     </ul>
   );
