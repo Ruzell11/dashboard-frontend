@@ -53,11 +53,11 @@ export const data = {
   ],
 };
 
-const BarGraph = () => {
+const SalesChartOverview = () => {
   return (
     <div className="container h-[100%] md:h-[400px]">
       <Bar options={options} data={data} height={500} />
     </div>
   );
 };
-export default BarGraph;
+export default SalesChartOverview;

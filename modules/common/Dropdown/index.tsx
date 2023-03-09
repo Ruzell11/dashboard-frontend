@@ -14,12 +14,14 @@ interface DropDownProps {
   DropdownMenuArray: ArrayProps[];
   icon: IconType;
   iconStyle: string;
+  isLogin: string | undefined;
 }
 
 const DropdownMenu: React.FC<DropDownProps> = ({
   DropdownMenuArray,
   icon: Icon,
   iconStyle,
+  isLogin,
 }: DropDownProps) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -52,23 +54,20 @@ const DropdownMenu: React.FC<DropDownProps> = ({
           "aria-labelledby": "basic-button",
         }}
       >
-        {DropdownMenuArray.map((item: any, index: number) => {
-          const loginLink = index == 1;
-          return (
-            <>
-              {/* This is temporary I will refactor it and will base if the user is logged in */}
-              {loginLink ? (
-                <Link href={`/${item.link}`}>
-                  <MenuItem onClick={handleClose}>{item.name}</MenuItem>
-                </Link>
-              ) : (
-                <Link href={`/dashboard/${item.link}`}>
-                  <MenuItem onClick={handleClose}>{item.name}</MenuItem>
-                </Link>
-              )}
-            </>
-          );
-        })}
+        {isLogin ? (
+          <Link href="/logout">
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Link>
+        ) : (
+          <>
+            <Link href="">
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+            </Link>
+            <Link href="/login">
+              <MenuItem onClick={handleClose}>Login</MenuItem>
+            </Link>
+          </>
+        )}
       </Menu>
     </div>
   );
