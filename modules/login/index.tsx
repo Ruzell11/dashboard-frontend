@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { userGetLoginRequest } from "./components/services";
-
+import { userGetLoginRequest } from "./services";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
