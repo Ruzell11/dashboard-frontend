@@ -1,7 +1,8 @@
 import DEV_URL from "@/modules/common/globals";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useMutation } from "react-query";
 import { setCookie, parseCookies } from "nookies";
+import jsCookie from "js-cookie";
 import { useRouter } from "next/router";
 
 interface LoginProps {
@@ -30,16 +31,18 @@ export const userGetLoginRequest = () => {
   const { mutate, isSuccess, isError, isLoading, data } = useMutation(
     userLoginRequest,
     {
-      onSuccess: async () => {
+      onSuccess: async (details: AxiosResponse) => {
         const cookies = parseCookies();
         const accessToken = cookies["access-token"];
-        console.log(accessToken);
+        const { user_details } = details.data;
+
         if (accessToken) {
           setCookie(null, "access-token", accessToken, {
             maxAge: 60 * 60 * 24 * 30, // 30 days
             path: "/",
           });
 
+          jsCookie.set("id", user_details.id);
           router.push("/dashboard/charts");
         }
       },

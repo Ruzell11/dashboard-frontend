@@ -38,6 +38,7 @@ const DropdownMenu: React.FC<DropDownProps> = ({
 
   const handleLogout = () => {
     jsCookie.remove("access-token");
+    jsCookie.remove("id");
     router.replace("/login");
   };
 
@@ -64,20 +65,18 @@ const DropdownMenu: React.FC<DropDownProps> = ({
         }}
       >
         {isLogin ? (
-          <>
-            <Link href="" onClick={handleLogout}>
-              <MenuItem>Logout</MenuItem>
-            </Link>
-            <Link href="">
+          [
+            <Link href="" key="profile">
               <MenuItem onClick={handleClose}>Profile</MenuItem>
-            </Link>
-          </>
+            </Link>,
+            <Link href="" key="logout" onClick={handleLogout}>
+              <MenuItem>Logout</MenuItem>
+            </Link>,
+          ]
         ) : (
-          <>
-            <Link href="/login">
-              <MenuItem onClick={handleClose}>Login</MenuItem>
-            </Link>
-          </>
+          <Link href="/login" key="login">
+            <MenuItem onClick={handleClose}>Login</MenuItem>
+          </Link>
         )}
       </Menu>
     </div>
