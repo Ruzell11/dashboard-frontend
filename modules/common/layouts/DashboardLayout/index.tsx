@@ -19,18 +19,6 @@ const DashboardLayout: React.FC<Children> = ({ children }: Children) => {
 
   const isLogin = accessToken;
 
-  useEffect(() => {
-    if (!isLogin) router.push("/login");
-  }, []);
-
-  if (!isLogin) {
-    return (
-      <div className="flex h-screen items-center w-100 justify-center">
-        <CircularProgress />
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col md:flex-row md:h-screen md:w-screen">
       {/* Sidebar */}

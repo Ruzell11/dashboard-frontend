@@ -5,6 +5,9 @@ import MenuItem from "@mui/material/MenuItem";
 import { IconType } from "react-icons";
 import Link from "next/link";
 
+import jsCookie from "js-cookie";
+import { useRouter } from "next/router";
+
 interface ArrayProps {
   name: string;
   link: string;
@@ -18,7 +21,6 @@ interface DropDownProps {
 }
 
 const DropdownMenu: React.FC<DropDownProps> = ({
-  DropdownMenuArray,
   icon: Icon,
   iconStyle,
   isLogin,
@@ -28,8 +30,15 @@ const DropdownMenu: React.FC<DropDownProps> = ({
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const router = useRouter();
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    jsCookie.remove("access-token");
+    router.replace("/login");
   };
 
   return (
@@ -55,14 +64,16 @@ const DropdownMenu: React.FC<DropDownProps> = ({
         }}
       >
         {isLogin ? (
-          <Link href="/logout">
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-          </Link>
-        ) : (
           <>
+            <Link href="" onClick={handleLogout}>
+              <MenuItem>Logout</MenuItem>
+            </Link>
             <Link href="">
               <MenuItem onClick={handleClose}>Profile</MenuItem>
             </Link>
+          </>
+        ) : (
+          <>
             <Link href="/login">
               <MenuItem onClick={handleClose}>Login</MenuItem>
             </Link>
