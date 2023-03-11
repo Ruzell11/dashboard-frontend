@@ -6,7 +6,10 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { CircularProgress } from "@mui/material";
 
-const DashboardLayout: React.FC<Children> = ({ children }: Children) => {
+
+
+
+const DashboardLayout: React.FC<Children> = ({ children}: Children) => {
   const [activeMenu, setActiveMenu] = useState(true);
   const router = useRouter();
 
@@ -30,7 +33,7 @@ const DashboardLayout: React.FC<Children> = ({ children }: Children) => {
         }
       >
         {activeMenu ? (
-          <Sidebar setActiveMenu={setActiveMenu} activeMenu={activeMenu} />
+          <Sidebar setActiveMenu={setActiveMenu} activeMenu={activeMenu}   />
         ) : null}
       </aside>
 
@@ -39,6 +42,7 @@ const DashboardLayout: React.FC<Children> = ({ children }: Children) => {
         {/* Navbar */}
         <div className="bg-blue-900 text-white p-6">
           <Navbar
+            
             setActiveMenu={setActiveMenu}
             activeMenu={activeMenu}
             isLogin={isLogin}

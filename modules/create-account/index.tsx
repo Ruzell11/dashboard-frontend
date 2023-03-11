@@ -1,6 +1,7 @@
-import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
-import { FormEvent, useState } from "react";
+import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Alert, AlertTitle } from "@mui/material";
+import { FormEvent, useEffect, useState } from "react";
 import ContentLayout from "../common/layouts/ContentLayout";
+import NotificationComponent from "../common/NotificationComponent";
 import { userGetAddMemberRequest } from "./services";
 
 const AddMemberForm = ({ role_id }) => {
@@ -10,8 +11,8 @@ const AddMemberForm = ({ role_id }) => {
   const [lastName, setLastName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [roleId, setRoleId] = useState<string>("2");
-  const { mutate } = userGetAddMemberRequest();
+  const [roleId, setRoleId] = useState<string | null>(null);
+  const { mutate, isSuccess , data , isError } = userGetAddMemberRequest();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,17 +22,25 @@ const AddMemberForm = ({ role_id }) => {
       username,
       password,
       email,
-      role_id: 3,
+      role_id: roleId,
     };
     mutate(params);
   };
 
+
+
   const handleChange = (event: SelectChangeEvent) => {
     setRoleId(event.target.value as string);
+    console.log(roleId)
   };
 
   return (
     <ContentLayout>
+      {isSuccess ? (
+        <>
+          <NotificationComponent message={data?.data.message as string} type={isError ? "error" : "success"}/>
+        </>
+      ) : null}
       <form onSubmit={handleSubmit} className="max-w-md mx-auto h-100">
         <h2 className="text-center text-xl font-semibold my-6">Create Account</h2>
         <div className="mb-6">
@@ -90,16 +99,19 @@ const AddMemberForm = ({ role_id }) => {
         <div className="mb-6">
           <FormControl fullWidth>
             <InputLabel>Permission</InputLabel>
-            <Select value={roleId} onChange={handleChange} label="Permission">
               {isAdmin ? (
-                <MenuItem value={2}>Admin Account</MenuItem>
-              ) : (
+                 <Select value={roleId} onChange={handleChange} label="Permission">
+                   <MenuItem value={2} key={2}>Admin Account</MenuItem>
+                   </Select>
+              
+              ): (
                 <>
-                  <MenuItem value={2}>Admin Account</MenuItem>
-                  <MenuItem value={3}>Team Member</MenuItem>
-                </>
+                <Select value={roleId} onChange={handleChange} label="Permission">
+                <MenuItem value={3}>Team Member</MenuItem>
+               </Select>
+             </>
               )}
-            </Select>
+          
           </FormControl>
         </div>
         <div className="flex justify-center">

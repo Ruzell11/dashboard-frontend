@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import NotificationComponent from "../common/NotificationComponent";
 import { userGetLoginRequest } from "./services";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { mutate } = userGetLoginRequest();
+  const { mutate , isSuccess , data , isError } = userGetLoginRequest();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -21,6 +22,7 @@ const Login = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <h2 className="text-2xl mb-4 text-gray-800">Login</h2>
+        {isSuccess ? <NotificationComponent message={data?.data.message} type={isError ? "error" : "success"}/> : null}
         <form onSubmit={handleSubmit} encType="form-data">
           <div className="mb-4">
             <label

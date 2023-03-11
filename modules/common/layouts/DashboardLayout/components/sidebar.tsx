@@ -4,16 +4,24 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
 import React from "react";
 import { useRouter } from "next/router";
+import jsCookie from 'js-cookie';
+import { Config } from "@/modules/common/globals/constants";
 
 interface NavbarProps {
   setActiveMenu: (menuOpen: boolean) => void;
   activeMenu: boolean;
+  
 }
 
 const Sidebar: React.FC<NavbarProps> = ({ setActiveMenu, activeMenu }) => {
   const router = useRouter();
+  const role_id = jsCookie.get('role_id');
 
   const url = router.pathname.split("/").pop();
+  const isAdmin = role_id == Config.ADMIN_ROLE_ID;
+  const isSuperAdmin = role_id == Config.SUB_ADMIN_ROLE_ID;
+
+
 
   const links = [
     {
@@ -32,10 +40,14 @@ const Sidebar: React.FC<NavbarProps> = ({ setActiveMenu, activeMenu }) => {
       id: "Dashboard",
       items: ["Leads Chart", "Leads List"],
     },
+    isAdmin || isSuperAdmin ? 
     {
       id: "Settings",
-      items: ["My Profile", "My Team"],
-    },
+      items:["My Profile", "My Team"]
+    } :  {
+      id: "Settings",
+      items:["My Profile"]
+    }
   ];
   return (
     <div>
