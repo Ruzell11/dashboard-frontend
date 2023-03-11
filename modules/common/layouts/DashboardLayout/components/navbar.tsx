@@ -13,6 +13,7 @@ interface NavbarProps {
 interface ArrayProps {
   name: string;
   link: string;
+
 }
 
 const DropdownMenuArray: Array<ArrayProps> = [
@@ -30,6 +31,7 @@ const Navbar: React.FC<NavbarProps> = ({
   setActiveMenu,
   activeMenu,
   isLogin,
+
 }) => {
   return (
     <ul className="flex justify-between items-center ">

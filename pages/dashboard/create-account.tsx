@@ -1,3 +1,11 @@
-import CreateAccount from "@/modules/create-account";
+import LoadingComponent from '@/modules/common/LoadingComponent';
+import dynamic from 'next/dynamic';
 
-export default CreateAccount
+const AddMemberForm = dynamic(() => import('@/modules/create-account'), 
+{ ssr: false ,  
+loading: () => <LoadingComponent/>
+});
+
+
+
+export default AddMemberForm;

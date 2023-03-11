@@ -2,7 +2,7 @@ import * as React from "react";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 
 import ContentLayout from "../common/layouts/ContentLayout";
-import { Button } from "@mui/material";
+import { Button   } from "@mui/material";
 import { userTeamListRequest } from "./services";
 import { useQuery } from "react-query";
 import { width } from "@mui/system";
@@ -48,6 +48,7 @@ const columns: GridColDef[] = [
   {
     field: "role_id",
     headerName: "Permission",
+    description:"If the user is an admin, they can add new members, edit products, and delete their team members' accounts. If the user has read-only access, they can only view the content of the dashboard and cannot perform any actions.Super Admin users can add products and edit or delete only the products they have uploaded. The super admin has access to all features and can perform any action.",
     type: "number",
     width: 170,
     valueGetter: (params) => getRoleName(params.row.role_id),
@@ -92,6 +93,7 @@ export default function TeamList({ role_id }) {
   
     return (
       <ContentLayout>
+      
         <div style={{ height: 600, width: "100%" }}>
           <div className="mt-4 mx-5">
             {isAdmin ? (
