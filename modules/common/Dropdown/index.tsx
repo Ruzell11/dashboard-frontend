@@ -39,6 +39,7 @@ const DropdownMenu: React.FC<DropDownProps> = ({
   const handleLogout = () => {
     jsCookie.remove("access-token");
     jsCookie.remove("id");
+    jsCookie.remove("role_id");
     router.replace("/login");
   };
 
