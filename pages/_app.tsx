@@ -11,6 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
   const router = useRouter();
   const cookie = jsCookie.get("access-token");
+  const role_id = jsCookie.get('role_id');
   const url = router.pathname;
 
   const handleMiddleware = async () => {
@@ -29,7 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
+      <Component {...pageProps} role_id={role_id} />
     </QueryClientProvider>
   );
 }

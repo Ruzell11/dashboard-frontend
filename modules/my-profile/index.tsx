@@ -17,9 +17,9 @@ const MyProfilePage = () => {
         case 1:
           return "Super Admin";
         case 2:
-          return "Admin";
-        case 3:
-          return "Read Only";
+          return "Admin Account";
+        default:
+          return "Read Only(Members)";
       }
     };
 

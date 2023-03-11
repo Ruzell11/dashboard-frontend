@@ -2,69 +2,122 @@ import * as React from "react";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 
 import ContentLayout from "../common/layouts/ContentLayout";
+import { Button } from "@mui/material";
+import { userTeamListRequest } from "./services";
+import { useQuery } from "react-query";
+import { width } from "@mui/system";
 
+function getRoleName(roleId) {
+  switch (roleId) {
+    case 1:
+      return "Super Admin";
+    case 2:
+      return "Admin Account";
+    default:
+      return "Read Only(Members)";
+  }
+}
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "_id", headerName: "ID", width: 70 },
   {
-    field: "fullName",
-    headerName: "Full name",
+    field: "email",
+    headerName: "Email",
+    width:170,
+    description: "This column has a value getter and is not sortable.",
+    sortable: false,
+  },
+  {
+    field: "first_name",
+    headerName: "First name",
+    width:170,
+    description: "This column has a value getter and is not sortable.",
+    sortable: false,
+    
+    valueGetter: (params: GridValueGetterParams) =>
+      `${params.row.first_name || ""} ${params.row.last_name || ""}`,
+  },
+  {
+    field: "last_name",
+    headerName: "Last name",
     description: "This column has a value getter and is not sortable.",
     sortable: false,
     width: 160,
     valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+      `${params.row.last_name || ""}`,
   },
   {
-    field: "permission",
+    field: "role_id",
     headerName: "Permission",
     type: "number",
-    width: 90,
+    width: 170,
+    valueGetter: (params) => getRoleName(params.row.role_id),
   },
 ];
 
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", permission: "Sub Admin" },
-  {
-    id: 2,
-    lastName: "Lannister",
-    firstName: "Cersei",
-    permission: "Read Only",
-  },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", permission: "Sub Admin" },
-  { id: 4, lastName: "Stark", firstName: "Arya", permission: "Sub Admin" },
-  {
-    id: 5,
-    lastName: "Targaryen",
-    firstName: "Daenerys",
-    permission: "Sub Admin",
-  },
-  { id: 6, lastName: "Melisandre", firstName: null, permission: "Read Only" },
-  {
-    id: 7,
-    lastName: "Clifford",
-    firstName: "Ferrara",
-    permission: "Sub Admin",
-  },
-  { id: 8, lastName: "Frances", firstName: "Rossini", permission: "Sub Admin" },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", permission: "Sub Admin" },
-];
 
-export default function TeamList() {
-  return (
-    <ContentLayout>
-      <div style={{ height: 600, width: "100%" }}>
-        <h1 className="m-4">
-          This list contains information about our team and their permission on
-          our crm.
-        </h1>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-        />
-      </div>
-    </ContentLayout>
-  );
+export default function TeamList({ role_id }) {
+  const isAdmin = role_id === '1';
+
+  const { data, isLoading, isSuccess } = useQuery({
+    queryKey: "user-data",
+    queryFn: async () => userTeamListRequest(),
+  });
+
+
+
+  if (isSuccess) {
+    const columnData = data.data.listOfMember;
+  
+    if (columnData === undefined || columnData.length === 0) {
+      return (
+        <ContentLayout>
+          <div className="mt-4 mx-5">
+            {isAdmin ? (
+              <Button variant="contained" href="/dashboard/create-account">
+                Add Admin Account
+              </Button>
+            ) : (
+              <Button variant="contained" href="/dashboard/create-account">
+                Add Team Members
+              </Button>
+            )}
+          </div>
+          <h1 className="m-4">No Team Members</h1>
+          <div style={{ height: 600, width: "100%" }}>
+            <DataGrid rows={[]} columns={columns} pageSize={5} rowsPerPageOptions={[5]} />
+          </div>
+        </ContentLayout>
+      );
+    }
+  
+    return (
+      <ContentLayout>
+        <div style={{ height: 600, width: "100%" }}>
+          <div className="mt-4 mx-5">
+            {isAdmin ? (
+              <Button variant="contained" href="/dashboard/create-account">
+                Add Admin Account
+              </Button>
+            ) : (
+              <Button variant="contained" href="/dashboard/create-account">
+                Add Team Members
+              </Button>
+            )}
+          </div>
+          <h1 className="m-4">
+            This list contains information about our team and their permission on
+            our crm.
+          </h1>
+          <DataGrid
+            rows={columnData}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            getRowId={(row) => row._id}
+          />
+        </div>
+      </ContentLayout>
+    );
+  }
 }

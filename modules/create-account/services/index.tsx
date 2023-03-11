@@ -10,7 +10,8 @@ interface LoginProps {
   password: string;
 }
 
-export const userLoginRequest = async (params: LoginProps) => {
+export const userAddMembers = async (params: LoginProps) => {
+    const user_id = jsCookie.get('id')
   const axiosConfig = {
     headers: {
       Accept: "application/json",
@@ -19,33 +20,20 @@ export const userLoginRequest = async (params: LoginProps) => {
   };
 
   const data = await axios.post(
-    `${DEV_URL.ROOT_URL}/user/login`,
+    `${DEV_URL.ROOT_URL}/user/add-team/${user_id}`,
     params,
     axiosConfig
   );
 
   return data;
 };
-export const userGetLoginRequest = () => {
+export const userGetAddMemberRequest = () => {
   const router = useRouter();
   const { mutate, isSuccess, isError, isLoading, data } = useMutation(
-    userLoginRequest,
+    userAddMembers,
     {
       onSuccess: async (details: AxiosResponse) => {
-        const cookies = parseCookies();
-        const accessToken = cookies["access-token"];
-        const { user_details } = details.data;
-
-        if (accessToken) {
-          setCookie(null, "access-token", accessToken, {
-            maxAge: 60 * 60 * 24 * 30, // 30 days
-            path: "/",
-          });
-
-          jsCookie.set("id", user_details.id);
-          jsCookie.set("role_id", user_details.role_id);
-          router.push("/dashboard/charts");
-        }
+       
       },
     }
   );
