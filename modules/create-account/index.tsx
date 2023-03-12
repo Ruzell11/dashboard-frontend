@@ -101,13 +101,13 @@ const AddMemberForm = ({ role_id }) => {
             <InputLabel>Permission</InputLabel>
               {isAdmin ? (
                  <Select value={roleId} onChange={handleChange} label="Permission">
+                    <MenuItem value={1} key={1}>Super Admin Account</MenuItem>
                    <MenuItem value={2} key={2}>Admin Account</MenuItem>
                    </Select>
-              
               ): (
                 <>
                 <Select value={roleId} onChange={handleChange} label="Permission">
-                <MenuItem value={3}>Team Member</MenuItem>
+                <MenuItem value={3} key={3}>Team Member</MenuItem>
                </Select>
              </>
               )}
