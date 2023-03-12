@@ -5,12 +5,17 @@ import { setCookie, parseCookies } from "nookies";
 import jsCookie from "js-cookie";
 import { useRouter } from "next/router";
 
-interface LoginProps {
-  email: string;
-  password: string;
+interface userAddMembersProps {
+  first_name: string | null;
+  last_name: string | null;
+  username: string | null;
+  password: string | null;
+  email: string | null;
+  role_id: number | null;
 }
 
-export const userAddMembers = async (params: LoginProps) => {
+
+export const userAddMembers = async (params: userAddMembersProps) => {
     const user_id = jsCookie.get('id')
   const axiosConfig = {
     headers: {
