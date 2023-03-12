@@ -1,6 +1,6 @@
 import NotificationComponent from "@/modules/common/NotificationComponent";
 import { Box, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, InputLabel, Select, MenuItem, FormControl } from "@mui/material"
-import { userGetEditRequest } from "../../services/updateUser";
+import { userGetEditRequest } from "../../team-list/services/updateUser";
 
 
 interface UserData {
@@ -95,6 +95,13 @@ const ModalFormComponent = ({ isOpen, setIsOpen, userData }: ModalProps) => {
                             defaultValue={userData?.last_name}
                             name="last_name"
                             label="Last name"
+                            fullWidth
+                            margin="normal"
+                        />
+                         <TextField
+                        
+                            name="password"
+                            label="Password"
                             fullWidth
                             margin="normal"
                         />
