@@ -20,7 +20,7 @@ export const userAddMembers = async (params: LoginProps) => {
   };
 
   const data = await axios.post(
-    `${DEV_URL.ROOT_URL}/user/add-team/${user_id}`,
+    `${DEV_URL.ROOT_URL}/user/add-team?created_by_id=${user_id || ""}`,
     params,
     axiosConfig
   );

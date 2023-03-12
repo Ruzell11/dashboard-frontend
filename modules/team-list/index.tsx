@@ -1,13 +1,16 @@
 import * as React from "react";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-
+import { DataGrid, GridCellParams, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import ContentLayout from "../common/layouts/ContentLayout";
-import { Button   } from "@mui/material";
+import { Button, IconButton    } from "@mui/material";
 import { userTeamListRequest } from "./services";
 import { useQuery } from "react-query";
-import { width } from "@mui/system";
+import LoadingComponent from "../common/LoadingComponent";
+import { Config } from "../common/globals/constants";
+import { Edit } from "@material-ui/icons";
+import { Delete } from "@mui/icons-material";
 
-function getRoleName(roleId) {
+
+function getRoleName(roleId:number) {
   switch (roleId) {
     case 1:
       return "Super Admin";
@@ -53,22 +56,45 @@ const columns: GridColDef[] = [
     width: 170,
     valueGetter: (params) => getRoleName(params.row.role_id),
   },
+
+  {
+    field: "actions",
+    headerName: "Actions",
+    width: 170,
+    sortable: false,
+    disableColumnMenu: true,
+    renderCell: (params: GridCellParams) => (
+      <>
+        <IconButton>
+          <Edit style={{color:"black" }} />
+        </IconButton>
+        <IconButton>
+          <Delete style={{ color:'red' }} />
+        </IconButton>
+      </>
+    ),
+  },
+
 ];
 
 
 export default function TeamList({ role_id }) {
-  const isAdmin = role_id === '1';
+  const isAdmin = role_id === Config.ADMIN_ROLE_ID;
 
   const { data, isLoading, isSuccess } = useQuery({
     queryKey: "user-data",
     queryFn: async () => userTeamListRequest(),
   });
+  
 
+
+  if(isLoading){
+    return <LoadingComponent/>
+  }
 
 
   if (isSuccess) {
     const columnData = data.data.listOfMember;
-  
     if (columnData === undefined || columnData.length === 0) {
       return (
         <ContentLayout>
