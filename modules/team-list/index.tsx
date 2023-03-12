@@ -8,9 +8,9 @@ import LoadingComponent from "../common/LoadingComponent";
 import { Config } from "../common/globals/constants";
 import { Edit } from "@material-ui/icons";
 import { Delete } from "@mui/icons-material";
-import ModalFormComponent from "./components/ModalFormComponent";
+import ModalFormComponent from "../common/ModalFormComponent";
 import { roleIdProps } from "../types";
-import ConfirmationModal from "./components/ConfirmationModalComponent";
+import ConfirmationModal from "../common/ConfirmationModal";
 
 
 interface UserDataProps {

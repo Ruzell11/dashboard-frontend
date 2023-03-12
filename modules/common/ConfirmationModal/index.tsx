@@ -7,7 +7,7 @@ import {
     DialogContentText,
     DialogTitle,
 } from "@material-ui/core";
-import { userGetDeleteRequest } from "../../services/deleteUser";
+import { userGetDeleteRequest } from "../../team-list/services/deleteUser";
 import NotificationComponent from "@/modules/common/NotificationComponent";
 
 
