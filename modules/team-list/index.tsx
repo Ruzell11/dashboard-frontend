@@ -10,12 +10,11 @@ import { Button, IconButton } from "@mui/material";
 import { userTeamListRequest } from "./services";
 import { useQuery } from "react-query";
 import LoadingComponent from "../common/LoadingComponent";
-import { Config } from "../common/globals/constants";
 import { Edit } from "@material-ui/icons";
 import { Delete } from "@mui/icons-material";
 import ModalFormComponent from "../common/ModalFormComponent";
-import { roleIdProps } from "../types";
 import ConfirmationModal from "../common/ConfirmationModal";
+import ActionButtonsComponent from "../common/ActionsButtonComponent";
 
 interface UserDataProps {
   row: {
@@ -31,8 +30,7 @@ interface UserDataProps {
   };
 }
 
-export default function TeamList({ role_id }: roleIdProps) {
-  const isAdmin = role_id === Config.ADMIN_ROLE_ID;
+export default function TeamList() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [userData, setUserData] = useState<UserDataProps["row"] | undefined>(
@@ -110,12 +108,11 @@ export default function TeamList({ role_id }: roleIdProps) {
       disableColumnMenu: true,
       renderCell: (params: GridCellParams) => (
         <>
-          <IconButton onClick={() => handleEditing(params)}>
-            <Edit style={{ color: "black" }} />
-          </IconButton>
-          <IconButton onClick={() => handleDelete(params)}>
-            <Delete style={{ color: "red" }} />
-          </IconButton>
+          <ActionButtonsComponent<UserDataProps>
+            handleEditing={handleEditing}
+            params={params}
+            handleDelete={handleDelete}
+          />
         </>
       ),
     },
@@ -134,6 +131,7 @@ export default function TeamList({ role_id }: roleIdProps) {
           isOpen={isEditing}
           setIsOpen={setIsEditing}
           userData={userData}
+          isShowPermission={true}
         />
         <ConfirmationModal
           open={isDeleting}
@@ -142,15 +140,9 @@ export default function TeamList({ role_id }: roleIdProps) {
         />
         <div style={{ height: 600, width: "100%" }}>
           <div className="mt-4 mx-5">
-            {isAdmin ? (
-              <Button variant="contained" href="/dashboard/create-account">
-                Add Admin Account
-              </Button>
-            ) : (
-              <Button variant="contained" href="/dashboard/create-account">
-                Add Team Members
-              </Button>
-            )}
+            <Button variant="contained" href="/dashboard/create-account">
+              Add Account
+            </Button>
           </div>
           <h1 className="m-4">
             This list contains information about our team and their permission

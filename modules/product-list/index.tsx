@@ -4,6 +4,7 @@ import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import ContentLayout from "../common/layouts/ContentLayout";
 import DropdownMenu from "../common/Dropdown";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { Button } from "@mui/material";
 
 const DropdownMenuArray = [
   {
@@ -57,6 +58,11 @@ export default function LeadsList() {
   return (
     <ContentLayout>
       <div style={{ height: 600, width: "100%" }}>
+        <div className="mt-4 mx-5">
+          <Button variant="contained" href="/dashboard/create-account">
+            Add Product
+          </Button>
+        </div>
         <h1 className="m-4">
           This list contains information about our customers from our dummy
           ecommerce, including their name, phone number, and age.

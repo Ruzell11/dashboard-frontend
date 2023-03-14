@@ -26,6 +26,7 @@ interface UserData {
 
 interface ModalProps {
   isOpen: boolean;
+  isShowPermission: boolean;
   setIsOpen: (isOpen: boolean) => void;
   userData?: {
     created_by: string | null;
@@ -40,7 +41,12 @@ interface ModalProps {
   };
 }
 
-const ModalFormComponent = ({ isOpen, setIsOpen, userData }: ModalProps) => {
+const ModalFormComponent = ({
+  isOpen,
+  setIsOpen,
+  userData,
+  isShowPermission: isShowPermission,
+}: ModalProps) => {
   const { mutate, isSuccess, data, isError } = userGetEditRequest();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent default form submission behavior
@@ -118,9 +124,10 @@ const ModalFormComponent = ({ isOpen, setIsOpen, userData }: ModalProps) => {
               fullWidth
               margin="normal"
             />
-            <FormControl fullWidth>
-              <InputLabel>Permission</InputLabel>
-              {userData?.role_id === 1 ? (
+            {isShowPermission ? (
+              <FormControl fullWidth>
+                <InputLabel>Permission</InputLabel>
+
                 <>
                   <Select
                     name="role_id"
@@ -139,22 +146,8 @@ const ModalFormComponent = ({ isOpen, setIsOpen, userData }: ModalProps) => {
                     </MenuItem>
                   </Select>
                 </>
-              ) : (
-                <Select
-                  name="role_id"
-                  label="Permission"
-                  required={true}
-                  defaultValue={userData?.role_id}
-                >
-                  <MenuItem value={2} key={2}>
-                    Admin Account
-                  </MenuItem>
-                  <MenuItem value={3} key={2}>
-                    Team Member
-                  </MenuItem>
-                </Select>
-              )}
-            </FormControl>
+              </FormControl>
+            ) : null}
           </DialogContent>
           <DialogActions>
             <Button onClick={() => setIsOpen(false)}>Cancel</Button>
