@@ -1,3 +1,4 @@
+import NotificationComponent from "@/modules/common/NotificationComponent";
 import {
   Box,
   Button,
@@ -32,8 +33,7 @@ const AddProductModalForm = ({
   isAddingProduct,
   setIsAddingProduct,
 }: AddProductModalForm) => {
-  const [file, setFile] = useState();
-  const { mutate } = userAddProductRequest();
+  const { mutate, isSuccess, data, isError } = userAddProductRequest();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -55,8 +55,6 @@ const AddProductModalForm = ({
     });
   };
 
-  const handleFileChange = (e) => {};
-
   return (
     <Dialog open={isAddingProduct}>
       <Box p={3}>
@@ -67,12 +65,12 @@ const AddProductModalForm = ({
         >
           <DialogTitle>Add Product</DialogTitle>
 
-          {/* {isSuccess ? (
+          {isSuccess ? (
             <NotificationComponent
               message={data?.data.message}
               type={isError ? "error" : "success"}
             />
-          ) : null} */}
+          ) : null}
           <DialogContent>
             <TextField
               name="product_name"
@@ -98,7 +96,6 @@ const AddProductModalForm = ({
                 <Input
                   type="file"
                   name="image"
-                  onChange={handleFileChange}
                   inputProps={{ accept: "image/*" }}
                 />
               </FormControl>

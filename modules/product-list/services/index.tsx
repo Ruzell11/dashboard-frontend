@@ -36,3 +36,14 @@ export const userAddProductRequest = () => {
 
   return { mutate, isSuccess, isError, isLoading, data };
 };
+
+export const getUserProductList = async (): Promise<AxiosResponse> => {
+  const userId = jsCookie.get("id");
+  const role_id = jsCookie.get("role_id");
+
+  return axios({
+    method: "GET",
+    withCredentials: true,
+    url: `${DEV_URL.ROOT_URL}/user/get-product-list?role_id=${role_id}&user_id=${userId}`,
+  });
+};

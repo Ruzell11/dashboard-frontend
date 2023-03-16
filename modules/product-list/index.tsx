@@ -6,56 +6,86 @@ import DropdownMenu from "../common/Dropdown";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { Button } from "@mui/material";
 import AddProductModalForm from "./components/AddProductModalForn";
+import { isError, useQuery } from "react-query";
+import { getUserProductList } from "./services";
 
 export default function LeadsList() {
   const [isAddingProduct, setIsAddingProduct] = useState<boolean>(false);
-  const DropdownMenuArray = [
+
+  const { data, isLoading, isSuccess, isError } = useQuery({
+    queryKey: "user-product-data",
+    queryFn: async () => getUserProductList(),
+  });
+
+  const columns = [
+    { field: "_id", headerName: "ID", flex: 1 },
     {
-      name: "Edit",
-      link: "edit",
+      field: "product_name",
+      headerName: "Product Name",
+      flex: 1,
     },
     {
-      name: "delete",
-      link: "delete",
+      field: "product_description",
+      headerName: "Product Description",
+      flex: 1,
     },
-  ];
-  const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 70 },
-    { field: "firstName", headerName: "First name", width: 130 },
-    { field: "lastName", headerName: "Last name", width: 130 },
-    {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      width: 90,
-    },
-    {
-      field: "actions",
-      headerName: "Actions",
-      type: "actions",
-      renderCell: (params) => (
-        <DropdownMenu
-          DropdownMenuArray={DropdownMenuArray}
-          icon={(props: React.SVGProps<SVGSVGElement>) => (
-            <BsThreeDotsVertical {...props} />
-          )}
-          iconStyle={"text-black"}
-        />
-      ),
-    },
+    { field: "product_price", headerName: "Price", flex: 1 },
+    // {
+    //   field: "created_by",
+    //   headerName: "Created By",
+    //   flex: 1,
+    //   valueGetter: (params: GridValueGetterParams) =>
+    //     params.row?._doc?.created_by?.username || "N/A",
+    // },
   ];
 
-  const rows = [
-    { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-  ];
+  if (isLoading) {
+    return <h1>LOADING....</h1>;
+  }
+
+  if (isError) {
+    return <h1>SOMETHING WENT WRONG</h1>;
+  }
+
+  if (data?.data.productList != null) {
+    const productData = data?.data.productList.map((product) => product._doc);
+
+    return (
+      <ContentLayout>
+        <AddProductModalForm
+          isAddingProduct={isAddingProduct}
+          setIsAddingProduct={setIsAddingProduct}
+        />
+        <div style={{ height: 600, width: "100%" }}>
+          <div className="mt-4 mx-5">
+            <Button
+              variant="contained"
+              className="bg-blue-500"
+              onClick={() => setIsAddingProduct(true)}
+            >
+              Add Product
+            </Button>
+          </div>
+          <h1 className="m-4">
+            This list contains information about our customers from our dummy
+            ecommerce, including their name, phone number, and age.
+          </h1>
+          {console.log(productData)}
+          <DataGrid
+            rows={productData}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            getRowId={(row) => {
+              console.log("this is the row ", row);
+              return row._id;
+            }}
+          />
+        </div>
+      </ContentLayout>
+    );
+  }
   return (
     <ContentLayout>
       <AddProductModalForm
@@ -76,8 +106,9 @@ export default function LeadsList() {
           This list contains information about our customers from our dummy
           ecommerce, including their name, phone number, and age.
         </h1>
+
         <DataGrid
-          rows={rows}
+          rows={[]}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
