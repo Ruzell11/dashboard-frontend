@@ -1,73 +1,125 @@
-import * as React from "react";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-
+import React, { useState } from "react";
+import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
+import { Button } from "@mui/material";
+import { useQuery } from "react-query";
 import ContentLayout from "../common/layouts/ContentLayout";
-import DropdownMenu from "../common/Dropdown";
-import { BsThreeDotsVertical } from "react-icons/bs";
 
-const DropdownMenuArray = [
-  {
-    name: "Edit",
-    link: "edit",
-  },
-  {
-    name: "delete",
-    link: "delete",
-  },
-];
+import { getUserProductList } from "./services";
+import { Config } from "../common/globals/constants";
+
+import AddProductModalForm from "./components/AddProductModalForn";
+import Image from "next/image";
+import { roleIdProps } from "../types";
+
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "firstName", headerName: "First name", width: 130 },
-  { field: "lastName", headerName: "Last name", width: 130 },
+  { field: "product_name", headerName: "Product Name", flex: 1 },
+  { field: "product_description", headerName: "Product Description", flex: 1 },
+  { field: "product_price", headerName: "Price", flex: 1 },
   {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 90,
+    field: "image_link",
+    headerName: "Product Image",
+    flex: 1,
+    renderCell: (params: GridCellParams) => {
+      console.log(params.row.image_link);
+      return (
+        <img
+          className=" object-contain"
+          src={params.row.image_link}
+          alt={params.row.product_name}
+        />
+      );
+    },
   },
   {
     field: "actions",
     headerName: "Actions",
-    type: "actions",
-    renderCell: (params) => (
-      <DropdownMenu
-        DropdownMenuArray={DropdownMenuArray}
-        icon={(props: React.SVGProps<SVGSVGElement>) => (
-          <BsThreeDotsVertical {...props} />
-        )}
-        iconStyle={"text-black"}
-      />
+    width: 170,
+    sortable: false,
+    disableColumnMenu: true,
+    renderCell: (params: GridCellParams) => (
+      <>
+        {/* <ActionButtonsComponent<UserDataProps>
+          handleEditing={handleEditing}
+          params={params}
+          handleDelete={handleDelete}
+        /> */}
+        <h1>Action Button</h1>
+      </>
     ),
   },
 ];
 
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+const columnsAdmin: GridColDef[] = [
+  { field: "product_name", headerName: "Product Name", flex: 1 },
+  { field: "product_description", headerName: "Product Description", flex: 1 },
+  { field: "product_price", headerName: "Price", flex: 1 },
+  {
+    field: "image_link",
+    headerName: "Product Image",
+    flex: 1,
+    renderCell: (params) => {
+      console.log(params.row.image_link);
+      return (
+        <img
+          className=" object-contain"
+          src={params.row.image_link}
+          alt={params.row.product_name}
+        />
+      );
+    },
+  },
+  { field: "created_by_username", headerName: "Created By Username", flex: 1 },
 ];
 
-export default function LeadsList() {
+export default function ProductList({ role_id }: roleIdProps) {
+  const isSuperAdmin = Config.ADMIN_ROLE_ID === role_id;
+  const isAdmin = Config.SUB_ADMIN_ROLE_ID === role_id;
+  console.log(isAdmin);
+  const [isAddingProduct, setIsAddingProduct] = useState<boolean>(false);
+
+  const { data, status } = useQuery("user-product-data", getUserProductList);
+
+  const productList = data?.data?.productList || [];
+
+  const handleAddProductClick = () => setIsAddingProduct(true);
+
   return (
     <ContentLayout>
+      <AddProductModalForm
+        isAddingProduct={isAddingProduct}
+        setIsAddingProduct={setIsAddingProduct}
+      />
       <div style={{ height: 600, width: "100%" }}>
+        <div className="mt-4 mx-5">
+          {isAdmin && (
+            <Button
+              variant="contained"
+              className="bg-blue-500"
+              onClick={handleAddProductClick}
+            >
+              Add Product
+            </Button>
+          )}
+        </div>
         <h1 className="m-4">
-          This list contains information about our customers from our dummy
-          ecommerce, including their name, phone number, and age.
+          This list contains information about our products, including their
+          name, description, and price.
         </h1>
+
         <DataGrid
-          rows={rows}
-          columns={columns}
+          rows={productList}
+          columns={isSuperAdmin ? columnsAdmin : columns}
+          rowHeight={150}
           pageSize={5}
           rowsPerPageOptions={[5]}
           checkboxSelection
+          getRowId={(row) => row._id}
         />
+        {status === "loading" && <h1>LOADING....</h1>}
+        {status === "error" && <h1>SOMETHING WENT WRONG</h1>}
+        {status === "success" && productList.length === 0 && (
+          <h1>No products found.</h1>
+        )}
       </div>
     </ContentLayout>
   );
