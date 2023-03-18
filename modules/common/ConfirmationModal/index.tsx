@@ -30,7 +30,7 @@ interface ConfirmationModalProps {
 const ConfirmationModal = ({ open, setOpen, userData }: ConfirmationModalProps) => {
     const { mutate, isSuccess, isError, data } = userGetDeleteRequest();
 
-
+    console.log(userData)
     const handleConfirmDelete = () => {
         if (userData === undefined) {
           return (
@@ -66,7 +66,7 @@ const ConfirmationModal = ({ open, setOpen, userData }: ConfirmationModalProps) 
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Are you sure you want to delete?"}
+                    {`Are you sure you want to delete your ${userData?.username} account ?`}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
