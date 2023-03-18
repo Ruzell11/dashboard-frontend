@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { userGetDeleteRequest } from "../../team-list/services/deleteUser";
 import NotificationComponent from "@/modules/common/NotificationComponent";
+import { handleLogoutParent } from "../function/handleLogout";
 
 
 interface ConfirmationModalProps {
@@ -29,6 +30,7 @@ interface ConfirmationModalProps {
 
 const ConfirmationModal = ({ open, setOpen, userData }: ConfirmationModalProps) => {
     const { mutate, isSuccess, isError, data } = userGetDeleteRequest();
+    const {handleLogout} = handleLogoutParent();
 
     console.log(userData)
     const handleConfirmDelete = () => {
@@ -47,6 +49,7 @@ const ConfirmationModal = ({ open, setOpen, userData }: ConfirmationModalProps) 
         mutate(params, {
           onSuccess: () => {
             setOpen(false);
+            handleLogout();
           },
         });
       };
