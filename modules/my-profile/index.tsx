@@ -59,7 +59,7 @@ const MyProfilePage = () => {
             </p>
           </div>
           <div className="space-x-5">
-            <Button className="bg-red-500" onClick={() => setIsDeleting(true)}>
+            <Button className="bg-red-500 text-white" onClick={() => setIsDeleting(true)}>
               Delete
             </Button>
             <Button

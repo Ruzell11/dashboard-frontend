@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { userGetDeleteRequest } from "../../team-list/services/deleteUser";
 import NotificationComponent from "@/modules/common/NotificationComponent";
+import { handleLogoutParent } from "../function/handleLogout";
 
 
 interface ConfirmationModalProps {
@@ -29,8 +30,9 @@ interface ConfirmationModalProps {
 
 const ConfirmationModal = ({ open, setOpen, userData }: ConfirmationModalProps) => {
     const { mutate, isSuccess, isError, data } = userGetDeleteRequest();
+    const {handleLogout} = handleLogoutParent();
 
-
+    console.log(userData)
     const handleConfirmDelete = () => {
         if (userData === undefined) {
           return (
@@ -47,6 +49,7 @@ const ConfirmationModal = ({ open, setOpen, userData }: ConfirmationModalProps) 
         mutate(params, {
           onSuccess: () => {
             setOpen(false);
+            handleLogout();
           },
         });
       };
@@ -66,7 +69,7 @@ const ConfirmationModal = ({ open, setOpen, userData }: ConfirmationModalProps) 
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Are you sure you want to delete?"}
+                    {`Are you sure you want to delete your ${userData?.username} account ?`}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
