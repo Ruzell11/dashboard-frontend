@@ -9,6 +9,6 @@ export const userProfileRequest = async (): Promise<AxiosResponse> => {
   return axios({
     method: "GET",
     withCredentials: true,
-    url: `${DEV_URL.ROOT_URL}/user/profile/${userId}`,
+    url: `${DEV_URL.ROOT_URL}/users/profile/${userId}`,
   });
 };

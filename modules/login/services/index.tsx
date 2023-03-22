@@ -19,7 +19,7 @@ export const userLoginRequest = async (params: LoginProps) => {
   };
 
   const data = await axios.post(
-    `${DEV_URL.ROOT_URL}/user/login`,
+    `${DEV_URL.ROOT_URL}/login`,
     params,
     axiosConfig
   );
