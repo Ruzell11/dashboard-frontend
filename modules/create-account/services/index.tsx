@@ -18,7 +18,6 @@ export const userAddMembers = async (params: userAddMembersProps) => {
   const axiosConfig = {
     headers: {
       Accept: "application/json",
-      "Content-Type": "multipart/form-data",
     },
     withCredentials: true, // add this line to send the cookie in the request
   };
