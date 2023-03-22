@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { userGetDeleteRequest } from "../../team-list/services/deleteUser";
 import NotificationComponent from "@/modules/common/NotificationComponent";
+import { handleLogoutParent } from "../function/handleLogout";
 
 interface ConfirmationModalProps {
   open: boolean;
@@ -26,6 +27,7 @@ interface ConfirmationModalProps {
   };
 }
 
+<<<<<<< HEAD
 const ConfirmationModal = ({
   open,
   setOpen,
@@ -86,6 +88,67 @@ const ConfirmationModal = ({
       </Dialog>
     </>
   );
+=======
+const ConfirmationModal = ({ open, setOpen, userData }: ConfirmationModalProps) => {
+    const { mutate, isSuccess, isError, data } = userGetDeleteRequest();
+    const {handleLogout} = handleLogoutParent();
+
+    console.log(userData)
+    const handleConfirmDelete = () => {
+        if (userData === undefined) {
+          return (
+            <NotificationComponent
+              message={"Something went wrong:("}
+              type="error"
+            />
+          );
+        }
+        const params = {
+          user_id: userData._id,
+          created_by_id: userData?.created_by,
+        };
+        mutate(params, {
+          onSuccess: () => {
+            setOpen(false);
+            handleLogout();
+          },
+        });
+      };
+      
+    return (
+        <>
+            {isSuccess ? (
+                <NotificationComponent
+                    message={data?.data.message}
+                    type={isError ? "error" : "success"}
+                />
+            ) : null}
+            <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {`Are you sure you want to delete your ${userData?.username} account ?`}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        This action cannot be undone.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpen(false)} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleConfirmDelete} color="primary" autoFocus>
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </>
+    );
+>>>>>>> 876c1b6ee331d52d6a0833afdab70952a4ec5b8f
 };
 
 export default ConfirmationModal;

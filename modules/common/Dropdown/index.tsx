@@ -4,9 +4,10 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { IconType } from "react-icons";
 import Link from "next/link";
+import {handleLogoutParent} from "../function/handleLogout";
 
-import jsCookie from "js-cookie";
-import { useRouter } from "next/router";
+
+
 
 interface ArrayProps {
   name: string;
@@ -30,18 +31,13 @@ const DropdownMenu: React.FC<DropDownProps> = ({
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const {handleLogout} = handleLogoutParent();
 
-  const router = useRouter();
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleLogout = () => {
-    jsCookie.remove("access-token");
-    jsCookie.remove("id");
-    jsCookie.remove("role_id");
-    router.replace("/login");
-  };
 
   return (
     <div>
