@@ -8,7 +8,7 @@ import { getUserProductList } from "./services";
 import { Config } from "../common/globals/constants";
 
 import AddProductModalForm from "./components/AddProductModalForn";
-import Image from "next/image";
+
 import { roleIdProps } from "../types";
 
 const columns: GridColDef[] = [
@@ -116,7 +116,17 @@ export default function ProductList({ role_id }: roleIdProps) {
           getRowId={(row) => row._id}
         />
         {status === "loading" && <h1>LOADING....</h1>}
-        {status === "error" && <h1>SOMETHING WENT WRONG</h1>}
+        {status === "error" && (
+          <ContentLayout>
+            <div
+              className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+              role="alert"
+            >
+              <strong className="font-bold">Error!</strong>
+              <span className="block sm:inline"> Something went wrong</span>
+            </div>
+          </ContentLayout>
+        )}
         {status === "success" && productList.length === 0 && (
           <h1>No products found.</h1>
         )}
