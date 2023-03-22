@@ -26,6 +26,7 @@ interface userAddMembersProps {
 
 const AddMemberForm = ({ role_id }: roleIdProps) => {
   const isAdmin = role_id === "1";
+  const [isShowNotification, setIsShowNotification] = useState<boolean>(false);
 
   const { mutate, isSuccess, data, isError } = userGetAddMemberRequest();
 
@@ -52,14 +53,19 @@ const AddMemberForm = ({ role_id }: roleIdProps) => {
     if (isSuccess) {
       e.currentTarget.reset();
     }
+    setIsShowNotification(true);
   };
 
   return (
     <ContentLayout>
-      {isSuccess ? (
+      {isShowNotification ? (
         <>
           <NotificationComponent
-            message={data?.data.message as string}
+            message={
+              isSuccess
+                ? (data?.data.message as string)
+                : "Missing fields are required!"
+            }
             type={isError ? "error" : "success"}
           />
         </>

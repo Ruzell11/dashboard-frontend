@@ -19,7 +19,7 @@ export const userAddProduct = async (params: ProductProps) => {
   };
 
   const data = await axios.post(
-    `${DEV_URL.ROOT_URL}/user/add-product/${user_id}`,
+    `${DEV_URL.ROOT_URL}/products/create/${user_id}`,
     params,
     axiosConfig
   );
@@ -44,6 +44,6 @@ export const getUserProductList = async (): Promise<AxiosResponse> => {
   return axios({
     method: "GET",
     withCredentials: true,
-    url: `${DEV_URL.ROOT_URL}/user/get-product-list?role_id=${role_id}&user_id=${userId}`,
+    url: `${DEV_URL.ROOT_URL}/products/product-list?role_id=${role_id}&user_id=${userId}`,
   });
 };
