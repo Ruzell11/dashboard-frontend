@@ -59,21 +59,34 @@ const MyProfilePage = () => {
             </p>
           </div>
           <div className="space-x-5">
-            <Button className="bg-red-500" onClick={() => setIsDeleting(true)}>
+            <button
+              className="bg-red-500 p-2 w-25 rounded-md text-white "
+              onClick={() => setIsDeleting(true)}
+            >
               Delete
-            </Button>
-            <Button
-              variant="contained"
-              className="bg-blue-600"
+            </button>
+            <button
+              className="bg-blue-600 p-2 w-25 rounded-md text-white "
               onClick={() => setIsEditing(true)}
             >
               Update
-            </Button>
+            </button>
           </div>
         </div>
       </ContentLayout>
     );
   }
+  return (
+    <ContentLayout>
+      <div
+        className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+        role="alert"
+      >
+        <strong className="font-bold">Error!</strong>
+        <span className="block sm:inline"> Something went wrong</span>
+      </div>
+    </ContentLayout>
+  );
 };
 
 export default MyProfilePage;
