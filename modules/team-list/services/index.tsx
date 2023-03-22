@@ -9,6 +9,6 @@ export const userTeamListRequest = async (): Promise<AxiosResponse> => {
   return axios({
     method: "GET",
     withCredentials: true,
-    url: `${DEV_URL.ROOT_URL}/user/get-team-list/${userId}`,
+    url: `${DEV_URL.ROOT_URL}/users/team-list/${userId}`,
   });
 };
