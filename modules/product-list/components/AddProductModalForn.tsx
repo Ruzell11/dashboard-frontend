@@ -35,6 +35,7 @@ const AddProductModalForm = ({
 }: AddProductModalForm) => {
   const { mutate, isSuccess, data, isError } = userAddProductRequest();
 
+  const [isShowNotification, setIsShowNotification] = useState<boolean>(false);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -52,6 +53,7 @@ const AddProductModalForm = ({
         params.append(key, value as any);
       }
       mutate(params);
+      setIsShowNotification(true);
     });
   };
 
@@ -65,9 +67,9 @@ const AddProductModalForm = ({
         >
           <DialogTitle>Add Product</DialogTitle>
 
-          {isSuccess ? (
+          {isShowNotification ? (
             <NotificationComponent
-              message={data?.data.message}
+              message={isSuccess ? data?.data.message : "Something went wrong"}
               type={isError ? "error" : "success"}
             />
           ) : null}
